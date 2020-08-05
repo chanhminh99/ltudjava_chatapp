@@ -41,6 +41,7 @@ public class XmlFileFactory {
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			if(obj.exists()) {
+				// Neu file ton tai roi: -> parse
 				Document doc =  documentBuilder.parse(obj);
 				Element root = doc.getDocumentElement();
 				NodeList _list = root.getElementsByTagName("account");
@@ -53,8 +54,12 @@ public class XmlFileFactory {
 						// username vs password
 						String info = _list.item(i).getTextContent().trim();
 						String []arr = info.split("\n");
+//						for(String item : arr) {
+//							if()
+//						}
 						String username = arr[0];
 						String pass = arr[1];
+						
 						Account model = new Account(username, pass);
 						res.add(model);
 					}
@@ -62,6 +67,7 @@ public class XmlFileFactory {
 				
 				
 		    } else {
+		    	// Tao moi
 		    	obj.createNewFile();
 		    	Document doc =  documentBuilder.newDocument();
 		    	//Tao root
@@ -119,9 +125,11 @@ public class XmlFileFactory {
 			user.appendChild(doc.createTextNode(_username));
 			Element pass = doc.createElement("password");
 			pass.appendChild(doc.createTextNode(_pass));
+
+			
 			account.appendChild(user);
 			account.appendChild(pass);
-			
+
 			root.appendChild(account);
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();

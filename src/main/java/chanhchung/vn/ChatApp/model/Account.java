@@ -11,6 +11,7 @@ public class Account
 		this._password = _password;
 	}
 	
+	
 	public String get_username() {
 		return _username;
 	}

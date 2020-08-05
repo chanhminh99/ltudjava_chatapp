@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<accounts>
+<account>
+<username>chanh</username>
+<password>1</password>
+</account>
+<account>
+<username>1</username>
+<password>1</password>
+</account>
+<account>
+<username>huy</username>
+<password>1</password>
+</account>
+<account>
+<username>testthu</username>
+<password>123</password>
+</account>
+</accounts>

@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 
 import chanhchung.vn.ChatApp.io.XmlFileFactory;
 import chanhchung.vn.ChatApp.model.Account;
+import chanhchung.vn.ChatApp.socket.Server;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,17 +32,15 @@ import java.awt.event.MouseEvent;
 public class LoginScreen extends JFrame {
 
 	private JPanel contentPane;
+	protected GraphicsConfiguration String;
 
-	/**
-	 * Launch the application.
-	 */
 	
-
 	/**
 	 * Create the frame.
 	 */
 	public LoginScreen() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 762, 417);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -72,9 +73,11 @@ public class LoginScreen extends JFrame {
 					if (isOk) {
 						// Khởi tạo màn hình chat ở đây nha
 						System.out.println("Đăng nhập thành công!");
+						
+						new HomeScreen(user);
 						dispose();
 					} else {
-						jop.showMessageDialog(null, "Đăng nhập thất bại. Vui lòng kiểm tra lại!");
+						JOptionPane.showMessageDialog(null, "Đăng nhập thất bại. Vui lòng kiểm tra lại!");
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -110,16 +113,22 @@ public class LoginScreen extends JFrame {
 	    lblngK.setBounds(410, 189, 62, 30);
 	    contentPane.add(lblngK);
 	    
-//	    Font font = lblngK.getFont();
-//	    Map<TextAttribute, Object> attributes = new HashMap<>(font.getAttributes());
-//	    attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-	    
+
 	    setLocationRelativeTo(null);
 	    setVisible(true);
 	}
 
 	protected boolean checkLogin(String user, String password) {
 		ArrayList<Account> _arr = XmlFileFactory.readListAccount();
+		
+		if(Server._listUser != null && Server._listUser.size() > 0) {
+			HashMap<String, Socket> _checkserver = new HashMap<>();
+			_checkserver = Server._listUser;
+			boolean check = _checkserver.containsKey(user);
+			if (check) {
+				return false;
+			}
+		}
 		for(Account item : _arr) {
 			if (item.get_username().compareToIgnoreCase(user) == 0 && item.get_password().compareToIgnoreCase(password) == 0) {
 				return true;
